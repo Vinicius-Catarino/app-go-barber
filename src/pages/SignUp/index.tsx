@@ -12,6 +12,8 @@ import { useNavigation } from "@react-navigation/native";
 
 import * as Yup from "yup";
 
+import api from "../../services/api";
+
 import { Form } from "@unform/mobile";
 import { FormHandles } from "@unform/core";
 
@@ -55,16 +57,20 @@ const SignUp: React.FC = () => {
         abortEarly: false,
       });
 
-      // await api.post("/users", data);
+      await api.post("/users", data);
 
-      // history.push("/");
+      Alert.alert(
+        "Cadastro realizado com sucesso!",
+        "Você já pode fazer login na aplicação"
+      );
+
+      navigation.goBack();
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const errors = getValidationsErrors(error);
         formRef.current?.setErrors(errors);
         return;
       }
-
       Alert.alert(
         "Erro na cadastro",
         "Ocorreu um erro ao fazer cadastro, tente novamente."
